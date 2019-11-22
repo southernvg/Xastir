@@ -8,11 +8,12 @@ matrix:
   include:
 
 
+
     - os: linux
-      dist: xenial
-      name: "Ubuntu-16.04 light w/ImageMagick"
+      dist: bionic
+      name: "Ubuntu-18.04LTS light w/ImageMagick"
       env:
-        - MAGIC_BIN="/usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/Magick-config"
+        - MAGIC_BIN="/usr/lib/x86_64-linux-gnu/ImageMagick-6.9.7/bin-q16/Magick-config"
       script:
         - ./bootstrap.sh
         - ./configure CPPFLAGS="-I/usr/include/geotiff"
@@ -43,13 +44,52 @@ matrix:
 
 
 
+#    - os: linux
+#      dist: xenial
+#      name: "Ubuntu-16.04LTS light w/ImageMagick"
+#      env:
+#        - MAGIC_BIN="/usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/Magick-config"
+#      script:
+#        - ./bootstrap.sh
+#        - ./configure CPPFLAGS="-I/usr/include/geotiff"
+#        - make
+#        - sudo make install
+#        - cd Davis
+#        - ./bootstrap.sh
+#        - ./configure
+#        - make
+#        - sudo make install
+#        - cd ../LaCrosse
+#        - ./bootstrap.sh
+#        - ./configure
+#        - make
+#        - sudo make install
+#      addons:
+#        apt:
+#          packages:
+#            - imagemagick
+#            - libmagickcore-dev
+#            - libmotif-dev
+#            - libcurl4-openssl-dev
+#            - libpcre3-dev
+#            - libdb5.3-dev
+#            - shapelib
+#            - libshp-dev
+#            - libxpm-dev
+
+
+
     - os: linux
-      dist: xenial
-      name: "Ubuntu-16.04 gcc8 full-featured w/GraphicsMagick"
+      dist: bionic
+      name: "Ubuntu-18.04LTS gcc-9 full-featured w/GraphicsMagick"
       env:
-        - CFLAGS="${CFLAGS} -Wall -O2 -Wformat-truncation=2 -Wstringop-truncation -Wextra"
+         - CFLAGS="${CFLAGS} -Wall -O2 -Wformat-truncation=2 -Wstringop-truncation -Wextra"
+      before_install:
+        - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - sudo apt-get update -q
+        - sudo apt-get install gcc-9 -y
       before_script:
-        - export CC="gcc-8"
+        - export CC="gcc-9"
         - echo ${CC}
         - ${CC} --version
       script:
@@ -73,7 +113,7 @@ matrix:
             - llvm-toolchain-xenial-7
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-8
+#            - gcc-9
             - graphicsmagick
             - libmotif-dev
             - libcurl4-openssl-dev
@@ -91,6 +131,108 @@ matrix:
             - gpsmanshp
             - libwebp-dev
             - libxpm-dev
+
+
+
+#    - os: linux
+#      dist: bionic
+#      name: "Ubuntu-18.04LTS gcc-8 full-featured w/GraphicsMagick"
+#      env:
+#         - CFLAGS="${CFLAGS} -Wall -O2 -Wformat-truncation=2 -Wstringop-truncation -Wextra"
+#      before_script:
+#        - export CC="gcc-8"
+#        - echo ${CC}
+#        - ${CC} --version
+#      script:
+#        - ./bootstrap.sh
+#        - ./configure CPPFLAGS="-I/usr/include/geotiff"
+#        - make
+#        - sudo make install
+#        - cd Davis
+#        - ./bootstrap.sh
+#        - ./configure
+#        - make
+#        - sudo make install
+#        - cd ../LaCrosse
+#        - ./bootstrap.sh
+#        - ./configure
+#        - make
+#        - sudo make install
+#      addons:
+#        apt:
+#          sources:
+#            - llvm-toolchain-xenial-7
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gcc-8
+#            - graphicsmagick
+#            - libmotif-dev
+#            - libcurl4-openssl-dev
+#            - libpcre3-dev
+#            - libproj-dev
+#            - libdb5.3-dev
+#            - libax25-dev
+#            - shapelib
+#            - libshp-dev
+#            - festival
+#            - festival-dev
+#            - libgeotiff-dev
+#            - libgraphicsmagick1-dev
+#            - gpsman
+#            - gpsmanshp
+#            - libwebp-dev
+#            - libxpm-dev
+
+
+
+#    - os: linux
+#      dist: xenial
+#      name: "Ubuntu-16.04LTS gcc-8 full-featured w/GraphicsMagick"
+#      env:
+#        - CFLAGS="${CFLAGS} -Wall -O2 -Wformat-truncation=2 -Wstringop-truncation -Wextra"
+#      before_script:
+#        - export CC="gcc-8"
+#        - echo ${CC}
+#        - ${CC} --version
+#      script:
+#        - ./bootstrap.sh
+#        - ./configure CPPFLAGS="-I/usr/include/geotiff"
+#        - make
+#        - sudo make install
+#        - cd Davis
+#        - ./bootstrap.sh
+#        - ./configure
+#        - make
+#        - sudo make install
+#        - cd ../LaCrosse
+#        - ./bootstrap.sh
+#        - ./configure
+#        - make
+#        - sudo make install
+#      addons:
+#        apt:
+#          sources:
+#            - llvm-toolchain-xenial-7
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - gcc-8
+#            - graphicsmagick
+#            - libmotif-dev
+#            - libcurl4-openssl-dev
+#            - libpcre3-dev
+#            - libproj-dev
+#            - libdb5.3-dev
+#            - libax25-dev
+#            - shapelib
+#            - libshp-dev
+#            - festival
+#            - festival-dev
+#            - libgeotiff-dev
+#            - libgraphicsmagick1-dev
+#            - gpsman
+#            - gpsmanshp
+#            - libwebp-dev
+#            - libxpm-dev
 
 
 
@@ -129,7 +271,7 @@ matrix:
 
     - os: linux
       dist: xenial
-      name: "Ubuntu-16.04 Exercise Configure Options"
+      name: "Ubuntu-16.04LTS Exercise Configure Options"
       env:
         - MAGIC_BIN="/usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/Magick-config"
       script:
